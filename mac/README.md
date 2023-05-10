@@ -12,7 +12,7 @@ Install it:
 
 It will log to `/var/log/keystroke.log`. This may require root access, but you can change that if you want. Set where you want it to log:
 
-`$ keylogger ~/logfile.txt`
+`$ keylogger ~/logfile.csv`
 
 `Logging to: /var/log/keystroke.log`
 

